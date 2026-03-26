@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow — Open Source Task Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-name">TaskFlow</span>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-filter="all">
+        <span class="nav-icon">◈</span> All Tasks
+        <span class="nav-count" id="count-all">0</span>
+      </button>
+      <button class="nav-btn" data-filter="todo">
+        <span class="nav-icon">○</span> To Do
+        <span class="nav-count" id="count-todo">0</span>
+      </button>
+      <button class="nav-btn" data-filter="inprogress">
+        <span class="nav-icon">◑</span> In Progress
+        <span class="nav-count" id="count-inprogress">0</span>
+      </button>
+      <button class="nav-btn" data-filter="done">
+        <span class="nav-icon">●</span> Done
+        <span class="nav-count" id="count-done">0</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="stats-card">
+        <p class="stats-label">Completion Rate</p>
+        <div class="progress-ring-wrap">
+          <svg class="progress-ring" width="64" height="64" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="var(--ring-bg)" stroke-width="6"/>
+            <circle id="ring-fill" cx="32" cy="32" r="26" fill="none" stroke="var(--accent)" stroke-width="6"
+              stroke-dasharray="163.36" stroke-dashoffset="163.36"
+              stroke-linecap="round" transform="rotate(-90 32 32)"/>
+          </svg>
+          <span class="ring-label" id="ring-pct">0%</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="page-title">All Tasks</h1>
+        <p class="page-sub">Manage your open source workflow</p>
+      </div>
+      <div class="topbar-right">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input type="text" id="search-input" class="search-input" placeholder="Search tasks..." />
+        </div>
+        <button class="btn-primary" id="open-modal-btn">+ New Task</button>
+      </div>
+    </header>
+
+    <!-- KANBAN BOARD -->
+    <div class="board" id="board">
+      <div class="column" id="col-todo">
+        <div class="col-header">
+          <span class="col-dot dot-todo"></span>
+          <h2>To Do</h2>
+        </div>
+        <div class="card-list" id="list-todo" data-status="todo"></div>
+      </div>
+      <div class="column" id="col-inprogress">
+        <div class="col-header">
+          <span class="col-dot dot-inprogress"></span>
+          <h2>In Progress</h2>
+        </div>
+        <div class="card-list" id="list-inprogress" data-status="inprogress"></div>
+      </div>
+      <div class="column" id="col-done">
+        <div class="col-header">
+          <span class="col-dot dot-done"></span>
+          <h2>Done</h2>
+        </div>
+        <div class="card-list" id="list-done" data-status="done"></div>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="empty-state" style="display:none">
+      <div class="empty-icon">⬡</div>
+      <p>No tasks yet. Create your first task!</p>
+    </div>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h2 id="modal-title">New Task</h2>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label">Task Title *</label>
+        <input type="text" id="task-title" class="field-input" placeholder="What needs to be done?" />
+
+        <label class="field-label">Description</label>
+        <textarea id="task-desc" class="field-input field-textarea" placeholder="Add details..."></textarea>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Priority</label>
+            <select id="task-priority" class="field-input field-select">
+              <option value="low">🟢 Low</option>
+              <option value="medium" selected>🟡 Medium</option>
+              <option value="high">🔴 High</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Status</label>
+            <select id="task-status" class="field-input field-select">
+              <option value="todo">To Do</option>
+              <option value="inprogress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="field-label">Assignee</label>
+        <input type="text" id="task-assignee" class="field-input" placeholder="Who's responsible?" />
+
+        <label class="field-label">Due Date</label>
+        <input type="date" id="task-due" class="field-input" />
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="cancel-btn">Cancel</button>
+        <button class="btn-primary" id="save-task-btn">Save Task</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
